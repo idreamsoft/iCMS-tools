@@ -57,7 +57,7 @@ if($_GET['do']=='convert'){
      */
     if($step=="1"){
 
-// iDB::query('TRUNCATE TABLE `#iCMS@__category`');
+$dede_config['TRUNCATE'] && iDB::query('TRUNCATE TABLE `#iCMS@__category`');
 
         if(iDB::value("SELECT `cid` FROM `#iCMS@__category` limit 1 ")){
             iPHP::alert("转换出错! 请确保 iCMS 栏目表[category]为空!");
@@ -162,9 +162,9 @@ if($_GET['do']=='convert'){
             '.$where_sql.'
         ');
 
-// iDB::query('TRUNCATE TABLE `#iCMS@__article`');
-// iDB::query('TRUNCATE TABLE `#iCMS@__category_map`');
-// iDB::query('TRUNCATE TABLE `#iCMS@__prop_map`');
+$dede_config['TRUNCATE'] && iDB::query('TRUNCATE TABLE `#iCMS@__article`');
+$dede_config['TRUNCATE'] && iDB::query('TRUNCATE TABLE `#iCMS@__category_map`');
+$dede_config['TRUNCATE'] && iDB::query('TRUNCATE TABLE `#iCMS@__prop_map`');
 //
         if(iDB::value("SELECT `id` FROM `#iCMS@__article` limit 1 ")){
             iPHP::alert("转换出错! 请确保 iCMS 文章表[article]为空!");
@@ -261,7 +261,7 @@ if($_GET['do']=='convert'){
         $total       = (int)$_GET['total'];
         $timer_start = iPHP::timer_start();
 
-// iDB::query('TRUNCATE TABLE `#iCMS@__article_data`;');
+$dede_config['TRUNCATE'] && iDB::query('TRUNCATE TABLE `#iCMS@__article_data`;');
 
         if(iDB::value("SELECT `id` FROM `#iCMS@__article_data` limit 1 ")){
             iPHP::alert("转换出错! 请确保 iCMS 文章表[article_data]为空!");
