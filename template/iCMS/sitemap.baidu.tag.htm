@@ -1,0 +1,16 @@
+<!--{'<'|cat:'?xml version="1.0" encoding="UTF-8"?'|cat:'>'}-->
+<urlset>
+    <url>
+        <loc><!--{$site.url}--></loc>
+        <lastmod><!--{$iCMS.NOW|date:"Y-m-d"}--></lastmod>
+        <changefreq>hourly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <!--{iCMS:tag:list loop="true" row="50000"}-->
+    <url>
+        <loc><!--{$tag_list.url|escape}--></loc>
+        <lastmod><!--{$iCMS.NOW|date:"Y-m-d"}--></lastmod>
+        <changefreq>always</changefreq>
+    </url>
+    <!--{/iCMS}-->
+</urlset>
