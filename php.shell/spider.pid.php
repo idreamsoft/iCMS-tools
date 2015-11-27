@@ -75,9 +75,8 @@ $project = array(
     array('id'=>$_SERVER['argv'][1]),
 );
 
-$spiderApp = iPHP::app("admincp.spider.app");
-//$project   = iDB::all("SELECT * FROM `#iCMS@__spider_project` WHERE `auto`='1' and id order by `id` desc");
-$spiderApp->work = 'shell';
+iPHP::import(iPHP_APP_CORE .'/iSpider.Autoload.php');
+spider::$work = 'shell';
 foreach ((array)$project as $key => $pro) {
     $GLOBALS['shutdown_pid'] = $pro['id'];
     $pfile = iPHP_APP_CACHE.'/spider.'.$pro['id'].'.pid';
@@ -86,8 +85,8 @@ foreach ((array)$project as $key => $pro) {
         continue;
     }
     file_put_contents($pfile, $pro['id']);
-    $spiderApp->pid = $pro['id'];
-    $spiderApp->spider_url("shell");
+    spider::$pid = $pro['id'];
+    spiderUrls::crawl("shell");
     @unlink($pfile);
 }
 

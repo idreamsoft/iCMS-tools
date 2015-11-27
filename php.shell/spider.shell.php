@@ -57,9 +57,10 @@ function sig_handler($signo){
      }
 }
 
-$spiderApp = iPHP::app("admincp.spider.app");
+iPHP::import(iPHP_APP_CORE .'/iSpider.Autoload.php');
+
 $project   = iDB::all("SELECT * FROM `#iCMS@__spider_project` WHERE `auto`='1' order by `id` desc");
-$spiderApp->work = 'shell';
+spider::$work = 'shell';
 foreach ((array)$project as $key => $pro) {
     $GLOBALS['shutdown_pid'] = $pro['id'];
     $pfile = iPHP_APP_CACHE.'/spider.'.$pro['id'].'.pid';
@@ -68,8 +69,8 @@ foreach ((array)$project as $key => $pro) {
         continue;
     }
     file_put_contents($pfile, $pro['id']);
-    $spiderApp->pid = $pro['id'];
-    $spiderApp->spider_url("shell",$pro['id'],$pro['rid']);
+    spider::$pid = $pro['id'];
+    spiderUrls::crawl("shell",$pro['id'],$pro['rid']);
     @unlink($pfile);
 }
 
