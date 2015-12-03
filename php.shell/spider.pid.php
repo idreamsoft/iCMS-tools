@@ -68,25 +68,28 @@ function shutdown(){
 register_shutdown_function('shutdown');
 
 if(empty($_SERVER['argv'][1])){
-    exit("ERROR:need argc\nexp:".$_SERVER['argv'][0]." pid\n\n\n");
+    exit("ERROR:need argc\nexp:".$_SERVER['argv'][0]." [pid]\n\n\n");
 }
 
-$project = array(
-    array('id'=>$_SERVER['argv'][1]),
-);
+$pid = $_SERVER['argv'][1];
 
 iPHP::import(iPHP_APP_CORE .'/iSpider.Autoload.php');
 spider::$work = 'shell';
-foreach ((array)$project as $key => $pro) {
-    $GLOBALS['shutdown_pid'] = $pro['id'];
-    $pfile = iPHP_APP_CACHE.'/spider.'.$pro['id'].'.pid';
-    if(file_exists($pfile)){
-        echo "project[".$pro['id']."],runing...\n";
+$GLOBALS['shutdown_pid'] = $pid;
+$pfile = iPHP_APP_CACHE.'/spider.'.$pid.'.pid';
+if(file_exists($pfile)){
+    $project = spider::project($pid);
+    $time = filemtime($pfile);
+    if($time-$project['lastupdate']>=$project['psleep']){
+        unlink_pid();
+    }else{
+        echo "project[".$pid."],runing..."PHP_EOL;
         continue;
     }
-    file_put_contents($pfile, $pro['id']);
-    spider::$pid = $pro['id'];
-    spiderUrls::crawl("shell");
-    @unlink($pfile);
 }
+file_put_contents($pfile, $pid);
+spider::$pid = $pid;
+spiderUrls::crawl("shell");
+@unlink($pfile);
+
 

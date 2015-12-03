@@ -25,7 +25,7 @@ iFS::$CURLOPT_CONNECTTIMEOUT = 3;  //连接超时时间
 function unlink_pid(){
     //echo PHP_EOL.'shutdown'.PHP_EOL;
     $pfile = iPHP_APP_CACHE.'/spider.'.$GLOBALS['shutdown_pid'].'.pid';
-    echo $pfile." delete; \n";
+    echo $pfile." delete;".PHP_EOL;
     @unlink($pfile);
 }
 //register_shutdown_function('shutdown');
@@ -39,7 +39,7 @@ function sig_handler($signo){
      switch ($signo) {
         case SIGTERM:
             // 处理kill
-            echo PHP_EOL."kill\n";
+            echo PHP_EOL."kill".PHP_EOL;
             unlink_pid();
             exit;
             break;
@@ -48,7 +48,7 @@ function sig_handler($signo){
             break;
         case SIGINT:
             //处理ctrl+c
-            echo PHP_EOL."ctrl+c\n";
+            echo PHP_EOL."ctrl+c".PHP_EOL;
             unlink_pid();
             exit;
             break;
@@ -65,8 +65,13 @@ foreach ((array)$project as $key => $pro) {
     $GLOBALS['shutdown_pid'] = $pro['id'];
     $pfile = iPHP_APP_CACHE.'/spider.'.$pro['id'].'.pid';
     if(file_exists($pfile)){
-        echo "project[".$pro['id']."],runing...\n";
-        continue;
+        $time = filemtime($pfile);
+        if($time-$project['lastupdate']>=$project['psleep']){
+            unlink_pid();
+        }else{
+            echo "project[".$pro['id']."],runing...".PHP_EOL;
+            continue;
+        }
     }
     file_put_contents($pfile, $pro['id']);
     spider::$pid = $pro['id'];
