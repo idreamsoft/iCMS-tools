@@ -65,7 +65,7 @@ function run($offset=0,$preNum=10){
         if($body && $aid){
             if(check_pic($body,$aid)){
             }else{
-                iDB::update('article_data',array('body'=>addslashes($body)),array('id'=>$adid));
+                iDB::update('article_data',array('body'=>$body),array('id'=>$adid));
                 $picurl = $articleApp->remotepic($body,'autopic',$aid);
                 $articleApp->pic($picurl,$aid);
                 iDB::update('article',array('status'=>'1','postype'=>'1','pubdate'=>time()),array('id'=>$aid));
