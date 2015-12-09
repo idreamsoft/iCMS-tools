@@ -1,9 +1,13 @@
 # iCMS 内容管理系统 一些脚本工具
 
-##dede.convert dedecms文章转换程序 
-##php.shell php脚本工具
+##dede.convert
+> dedecms文章转换程序
+##php.shell
+> php脚本工具
+> 在Linux下测试通过，WIN下CMD执行可能出现乱码 可忽略
+> WIN下请移除php文件开头的下面代码 `#!/usr/local/php/bin/php`
+> linux 如果php路径不在`/usr/local/php/bin/php`请用`ln`或者修改php脚本
 
-> 在Linux下测试通过，WIN下CMD执行可能出现乱码
 ### downpic.php
 > 下载草稿文章里的图片
 ### re.category_map.php
@@ -23,5 +27,5 @@
 ### spider.shell.php
 > 采集标记自动采集
 ### update.index.php
-> 重新首页
+> 生成首页
 ##template/iCMS php脚本工具用到的模板
