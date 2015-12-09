@@ -44,7 +44,7 @@ function sig_handler($signo){
      switch ($signo) {
         case SIGTERM:
             // 处理kill
-            echo PHP_EOL."kill\n";
+            echo PHP_EOL."kill".PHP_EOL;
             unlink_pid();
             exit;
             break;
@@ -53,7 +53,7 @@ function sig_handler($signo){
             break;
         case SIGINT:
             //处理ctrl+c
-            echo PHP_EOL."ctrl+c\n";
+            echo PHP_EOL."ctrl+c".PHP_EOL;
             unlink_pid();
             exit;
             break;
@@ -68,7 +68,7 @@ function shutdown(){
 register_shutdown_function('shutdown');
 
 if(empty($_SERVER['argv'][1])){
-    exit("ERROR:need argc\nexp:".$_SERVER['argv'][0]." [pid]\n\n\n");
+    exit("ERROR:need argc".PHP_EOL."exp:".$_SERVER['argv'][0]." [pid]"..PHP_EOL.PHP_EOL.PHP_EOL);
 }
 
 $pid = $_SERVER['argv'][1];
@@ -83,7 +83,7 @@ if(file_exists($pfile)){
     if($time-$project['lastupdate']>=$project['psleep']){
         unlink_pid();
     }else{
-        echo "project[".$pid."],runing..."PHP_EOL;
+        echo "project[".$pid."],runing...".PHP_EOL;
         continue;
     }
 }
