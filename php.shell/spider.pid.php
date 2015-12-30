@@ -25,7 +25,7 @@ iFS::$CURLOPT_CONNECTTIMEOUT = 3;  //连接超时时间
 function unlink_pid(){
     //echo PHP_EOL.'shutdown'.PHP_EOL;
     $pfile = iPHP_APP_CACHE.'/spider.'.$GLOBALS['shutdown_pid'].'.pid';
-    echo $pfile." delete; \n";
+    echo $pfile." delete;".PHP_EOL;
     @unlink($pfile);
 }
 if (!function_exists('pcntl_signal')) {
@@ -33,12 +33,6 @@ if (!function_exists('pcntl_signal')) {
         return;
     }
 }
-//register_shutdown_function('shutdown');
-declare(ticks = 1);
-pcntl_signal(SIGTERM, "sig_handler");
-pcntl_signal(SIGHUP,  "sig_handler");
-pcntl_signal(SIGINT,  "sig_handler");
-
 //信号处理函数
 function sig_handler($signo){
      switch ($signo) {
@@ -61,11 +55,12 @@ function sig_handler($signo){
             // 处理所有其他信号
      }
 }
-function shutdown(){
-    unlink_pid();
-}
+@register_shutdown_function('unlink_pid');
 
-register_shutdown_function('shutdown');
+declare(ticks = 1);
+pcntl_signal(SIGTERM, "sig_handler");
+pcntl_signal(SIGHUP,  "sig_handler");
+pcntl_signal(SIGINT,  "sig_handler");
 
 if(empty($_SERVER['argv'][1])){
     exit("ERROR:need argc".PHP_EOL."exp:".$_SERVER['argv'][0]." [pid]"..PHP_EOL.PHP_EOL.PHP_EOL);
