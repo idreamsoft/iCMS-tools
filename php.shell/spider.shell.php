@@ -28,12 +28,11 @@ function unlink_pid(){
     echo $pfile." delete;".PHP_EOL;
     @unlink($pfile);
 }
-//register_shutdown_function('shutdown');
-declare(ticks = 1);
-pcntl_signal(SIGTERM, "sig_handler");
-pcntl_signal(SIGHUP,  "sig_handler");
-pcntl_signal(SIGINT,  "sig_handler");
-
+if (!function_exists('pcntl_signal')) {
+    function pcntl_signal($a=null,$b=null){
+        return;
+    }
+}
 //信号处理函数
 function sig_handler($signo){
      switch ($signo) {
@@ -56,10 +55,15 @@ function sig_handler($signo){
             // 处理所有其他信号
      }
 }
+@register_shutdown_function('unlink_pid');
+
+declare(ticks = 1);
+pcntl_signal(SIGTERM, "sig_handler");
+pcntl_signal(SIGHUP,  "sig_handler");
+pcntl_signal(SIGINT,  "sig_handler");
 
 iPHP::import(iPHP_APP_CORE .'/iSpider.Autoload.php');
-
-$project   = iDB::all("SELECT * FROM `#iCMS@__spider_project` WHERE `auto`='1' order by `id` desc");
+$project = iDB::all("SELECT * FROM `#iCMS@__spider_project` WHERE `auto`='1' order by `id` desc");
 spider::$work = 'shell';
 foreach ((array)$project as $key => $pro) {
     $GLOBALS['shutdown_pid'] = $pro['id'];

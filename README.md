@@ -12,6 +12,9 @@
 
 > linux 如果php路径不在`/usr/local/php/bin/php`请用`ln`或者修改php脚本
 
+> linux 下给php脚本执行权限 `chmod +x php脚本`
+
+> 执行：`/php脚本路径/php脚本.php`
 
 ### downpic.php
 > 下载草稿文章里的图片
