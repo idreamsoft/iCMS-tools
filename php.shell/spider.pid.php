@@ -68,7 +68,7 @@ function shutdown(){
 register_shutdown_function('shutdown');
 
 if(empty($_SERVER['argv'][1])){
-    exit("ERROR:need argc".PHP_EOL."exp:".$_SERVER['argv'][0]." [pid]"..PHP_EOL.PHP_EOL.PHP_EOL);
+    exit("ERROR:need argc".PHP_EOL."exp:".$_SERVER['argv'][0]." [pid]".PHP_EOL.PHP_EOL.PHP_EOL);
 }
 
 $pid = $_SERVER['argv'][1];
