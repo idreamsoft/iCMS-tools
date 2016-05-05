@@ -10,9 +10,9 @@ $sitemap_dir  = 'sitemap';
 $sitemap_path = iFS::path(iPATH.iCMS::$config['router']['html_dir'].$sitemap_dir);
 $sitemap_url  = iCMS_URL.'/'.$sitemap_dir;
 
-$xml       = iPHP::view('iCMS://sitemap.index.static.htm');
+$xml       = iPHP::view('iCMS://sitemap.baidu.category.htm');
 iFS::mkdir($sitemap_path);
-iFS::write($sitemap_path.'/index.xml',$xml);
+iFS::write($sitemap_path.'/category.xml',$xml);
 
 $tag = iPHP::view('iCMS://sitemap.baidu.tag.htm');
 iFS::mkdir($sitemap_path);
@@ -27,5 +27,5 @@ foreach ((array)$category as $key => $cat) {
 	iFS::write($xmlPath,$xml);
 	echo $xmlPath.PHP_EOL;
 }
-echo $sitemap_url.'/index.xml'.PHP_EOL;
+echo $sitemap_url.'/category.xml'.PHP_EOL;
 echo $sitemap_url.'/tag.xml'.PHP_EOL;
