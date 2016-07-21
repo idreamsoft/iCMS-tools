@@ -39,23 +39,26 @@ if($_GET['do']=='convert'){
     /**
      * 获取DEDE系统配置
      */
-    if(empty($step)){
-        $dede_sysconfig = $dedeDB->all('
-            SELECT `aid`, `varname`, `value`
+    if(file_exists(($dede_sysconfig_file)){
+        $dede_sysconfig = include $dede_sysconfig_file;
+    }else{
+        $sysconfig = $dedeDB->all('
+            SELECT `varname`, `value`
             FROM `#dede@__sysconfig`
         ');
 
-        foreach ($dede_sysconfig as $key => $value) {
-            $sysconfig[$value['varname']] = $value['value'];
+        foreach ($sysconfig as $key => $value) {
+            $dede_sysconfig[$value['varname']] = $value['value'];
         }
 
-        $syscontent = var_export($sysconfig,true);
-        iFS::write($dede_sysconfig_file,"<?php\n defined('iPHP') OR exit('Access Denied');\n return ".$syscontent.';',false);
-    }else{
-        $dede_sysconfig = include $dede_sysconfig_file;
+        iFS::write($dede_sysconfig_file,"<?php\n defined('iPHP') OR exit('Access Denied');\n return ".var_export($dede_sysconfig,true).';',false);
+    }
+
+    if($dede_sysconfig){
         $dede_file_uri  = rtrim($dede_sysconfig['cfg_basehost'],'/').'/'.
                           trim($dede_sysconfig['cfg_medias_dir'],'/').'/';
     }
+
     $nextStep    = $step+1;
     $dialogTime  = 0.1;
     $maxperpage  = 1000;

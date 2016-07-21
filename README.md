@@ -2,6 +2,9 @@
 
 ##dede.convert
 > dedecms文章转换程序
+> 把本目录放到iCMS程序的根目录下
+> 然后给conf目录写权限
+> 注：此转换程序无法转换DEDE的自定义字段
 
 ##php.shell
 > php脚本工具
