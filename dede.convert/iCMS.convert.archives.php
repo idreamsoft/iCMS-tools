@@ -58,6 +58,8 @@ foreach ($flagMap as $flagk => $flagv) {
 }
 
 iPHP::import(iPHP_APP_CORE .'/iMAP.class.php');
+iPHP::app('tag.class','static');
+
 foreach ((array)$archives as $key => $value) {
     $flagArray = explode(',', $value['flag']);
     $flag = array();
@@ -65,13 +67,17 @@ foreach ((array)$archives as $key => $value) {
         $flag[]=$flagMap[$fv][1];
     }
     $value['litpic'] = str_replace($dede_file_uri, '', $value['litpic']);
+    $array = getTags($dedeDB,$value['id'],$value['keywords']);
+// var_dump($array);
+
     $article =  array(
         'id'          => $value['id'],
         'cid'         => $value['typeid'],
         'scid'        => $value['typeid2'],
         'pid'         => implode(',', (array)$flag),
         'title'       => addslashes($value['title']),
-        'keywords'    => addslashes($value['keywords']),
+        'keywords'    => addslashes($array['keyword']),
+        'tags'        => addslashes($array['tag']),
         'description' => addslashes($value['description']),
         'pubdate'     => $value['pubdate'],
         'postime'     => $value['senddate'],
@@ -97,10 +103,33 @@ foreach ((array)$archives as $key => $value) {
         map::init('prop','1');
         map::add($article['pid'],$article['id']);
     }
-
+    if($article['tags']){
+        tag::add($article['tags'],$article['userid'],$article['id'],$article['cid']);
+    }
     map::init('category','1');
     map::add($article['cid'],$article['id']);
     $article['scid'] && map::add($article['scid'],$article['id']);
 
     iDB::insert('article',$article);
+}
+function getTags($dedeDB,$aid,$keywords=null){
+    $variable = $dedeDB->all("
+        SELECT * FROM `#dede@__taglist`
+        WHERE `aid`='".$aid."'
+    ");
+
+    $tagArray = array();
+    $tag = array();
+    foreach ((array)$variable as $key => $value) {
+        $tag[] = $value['tag'];
+    }
+    if($keywords){
+        $keywordArray = explode(',', $keywords);
+        $result  =  array_diff ( $keywordArray ,  $tag );
+        $tagArray['keyword'] = implode(',', $result);
+    }
+    if($tag){
+        $tagArray['tag'] = implode(',', $tag);
+    }
+    return $tagArray;
 }

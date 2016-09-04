@@ -18,7 +18,7 @@ define('ARRAY_N', 'ARRAY_N');
 defined('SAVEQUERIES') OR define('SAVEQUERIES', true);
 defined('iPHP_DB_PORT') OR define('iPHP_DB_PORT', '3306');
 
-class iMysql{
+class iMysql_DEDE{
     public $show_errors = false;
     public $num_queries = 0;
     public $last_query;
@@ -33,7 +33,7 @@ class iMysql{
 
     private $collate;
     private $time_start;
-    private $last_error ;
+    public $last_error ;
     private $link;
     private $result;
 
@@ -66,7 +66,7 @@ class iMysql{
     }
 
     public function connect($flag=null){
-        $this->link = @mysql_connect($this->config['HOST'].':'.$this->config['PORT'], $this->config['USER'], $this->config['PASSWORD']);
+        $this->link = @mysql_connect($this->config['HOST'].':'.$this->config['PORT'], $this->config['USER'], $this->config['PASSWORD'],true);
         if($flag==='link'){
             return $this->link;
         }

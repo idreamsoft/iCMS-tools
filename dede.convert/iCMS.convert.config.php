@@ -20,7 +20,7 @@ $db_config = array(
     'PORT'       => '3306',
     'TRUNCATE'   => isset($_POST['TRUNCATE'])?true:false
 );
-$dedeDB = new iMysql($db_config,'DEDE_DB');
+$dedeDB = new iMysql_DEDE($db_config,'DEDE_DB');
 
 $db_host OR iPHP::alert("请填写数据库服务器地址",'js:top.callback("#DB_HOST");');
 $db_user OR iPHP::alert("请填写数据库用户名",'js:top.callback("#DB_USER");');

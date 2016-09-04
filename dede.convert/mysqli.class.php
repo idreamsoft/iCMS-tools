@@ -17,7 +17,7 @@ define('ARRAY_N', 'ARRAY_N');
 defined('SAVEQUERIES') OR define('SAVEQUERIES', true);
 defined('iPHP_DB_PORT') OR define('iPHP_DB_PORT', '3306');
 
-class iMysql {
+class iMysql_DEDE {
     public $show_errors = false;
     public $num_queries = 0;
     public $last_query;
@@ -29,10 +29,11 @@ class iMysql {
     public $insert_id;
     public $link;
     public $config = null;
+    public $dbFlag = null;
 
     private $collate;
     private $time_start;
-    private $last_error ;
+    public $last_error ;
     private $result;
 
     public function __construct($config=null,$flag='iPHP_DB') {

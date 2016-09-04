@@ -9,6 +9,8 @@
 * @version 6.0.0
 * @$Id: install.php 2330 2014-01-03 05:19:07Z coolmoo $
 */
+define('iPHP_DB_NEW_LINK', true);//多数据连接
+
 require dirname(__file__).'/../iCMS.php';
 if(version_compare(PHP_VERSION,'5.5','>=')){
     require dirname(__file__).'/mysqli.class.php';
@@ -34,12 +36,12 @@ if($_GET['do']=='convert'){
      * 连接DEDE数据库
      */
     $dede_config = include $dede_config_file;
-    $dedeDB      = new iMysql($dede_config,'DEDE_DB');
+    $dedeDB      = new iMysql_DEDE($dede_config,'DEDE_DB');
 
     /**
      * 获取DEDE系统配置
      */
-    if(file_exists(($dede_sysconfig_file)){
+    if(file_exists($dede_sysconfig_file)){
         $dede_sysconfig = include $dede_sysconfig_file;
     }else{
         $sysconfig = $dedeDB->all('
