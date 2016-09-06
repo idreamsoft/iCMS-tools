@@ -8,8 +8,22 @@ if(empty($total)){
     ');
     // $total   = 10000;
 }
+
 $multi        = iCMS::page(array('total'=>$total,'perpage'=>$maxperpage,'nowindex'=>$_GET['page']));
 $offset       = $multi->offset;
+
+if($offset=="0"){
+    if($dede_config['TRUNCATE']){
+        iDB::query('TRUNCATE TABLE `#iCMS@__article`');
+        iDB::query('TRUNCATE TABLE `#iCMS@__category_map`');
+        iDB::query('TRUNCATE TABLE `#iCMS@__prop_map`');
+    }
+    //
+    if(iDB::value("SELECT `id` FROM `#iCMS@__article` limit 1 ")){
+        iPHP::alert("转换出错! 请确保 iCMS 文章表[article]为空!");
+    }
+}
+
 $limit        = "LIMIT {$offset},{$maxperpage}";
 $archives_ids = $dedeDB->all('
     SELECT `id` FROM `#dede@__archives`
@@ -23,16 +37,6 @@ $archives  = $dedeDB->all('
     SELECT * FROM `#dede@__archives`
     '.$where_sql.'
 ');
-
-if($offset=="0"){
-    $dede_config['TRUNCATE'] && iDB::query('TRUNCATE TABLE `#iCMS@__article`');
-    $dede_config['TRUNCATE'] && iDB::query('TRUNCATE TABLE `#iCMS@__category_map`');
-    $dede_config['TRUNCATE'] && iDB::query('TRUNCATE TABLE `#iCMS@__prop_map`');
-    //
-    if(iDB::value("SELECT `id` FROM `#iCMS@__article` limit 1 ")){
-        iPHP::alert("转换出错! 请确保 iCMS 文章表[article]为空!");
-    }
-}
 
 $flagMap= array(
     'c' =>array('推荐',1),
@@ -116,7 +120,7 @@ foreach ((array)$archives as $key => $value) {
 }
 function getTags($dedeDB,$aid,$keywords=null){
     $variable = $dedeDB->all("
-        SELECT * FROM `#dede@__taglist`
+        SELECT `tag` FROM `#dede@__taglist`
         WHERE `aid`='".$aid."'
     ");
 

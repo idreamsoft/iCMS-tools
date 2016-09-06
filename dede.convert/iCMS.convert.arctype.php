@@ -1,12 +1,6 @@
 <?php
 defined('iPATH') OR exit('What are you doing?');
 
-$dede_config['TRUNCATE'] && iDB::query('TRUNCATE TABLE `#iCMS@__category`');
-
-if(iDB::value("SELECT `cid` FROM `#iCMS@__category` limit 1 ")){
-    iPHP::alert("转换出错! 请确保 iCMS 栏目表[category]为空!");
-}
-
 if(empty($total)){
     $total   = $dedeDB->value('
         SELECT count(*)
@@ -16,11 +10,21 @@ if(empty($total)){
 }
 $multi        = iCMS::page(array('total'=>$total,'perpage'=>$maxperpage,'nowindex'=>$_GET['page']));
 $offset       = $multi->offset;
+
+if($offset=="0"){
+    $dede_config['TRUNCATE'] && iDB::query('TRUNCATE TABLE `#iCMS@__category`');
+
+    if(iDB::value("SELECT `cid` FROM `#iCMS@__category` limit 1 ")){
+        iPHP::alert("转换出错! 请确保 iCMS 栏目表[category]为空!");
+    }
+}
+
 $limit        = "LIMIT {$offset},{$maxperpage}";
 $archives_ids = $dedeDB->all('
     SELECT `id` FROM `#dede@__arctype`
     '.$limit.'
 ');
+
 
 $ids       = iPHP::get_ids($archives_ids);
 $ids       = $ids?$ids:'0';
