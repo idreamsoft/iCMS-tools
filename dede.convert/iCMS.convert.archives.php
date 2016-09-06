@@ -24,12 +24,14 @@ $archives  = $dedeDB->all('
     '.$where_sql.'
 ');
 
-$dede_config['TRUNCATE'] && iDB::query('TRUNCATE TABLE `#iCMS@__article`');
-$dede_config['TRUNCATE'] && iDB::query('TRUNCATE TABLE `#iCMS@__category_map`');
-$dede_config['TRUNCATE'] && iDB::query('TRUNCATE TABLE `#iCMS@__prop_map`');
-//
-if(iDB::value("SELECT `id` FROM `#iCMS@__article` limit 1 ")){
-    iPHP::alert("转换出错! 请确保 iCMS 文章表[article]为空!");
+if($offset=="0"){
+    $dede_config['TRUNCATE'] && iDB::query('TRUNCATE TABLE `#iCMS@__article`');
+    $dede_config['TRUNCATE'] && iDB::query('TRUNCATE TABLE `#iCMS@__category_map`');
+    $dede_config['TRUNCATE'] && iDB::query('TRUNCATE TABLE `#iCMS@__prop_map`');
+    //
+    if(iDB::value("SELECT `id` FROM `#iCMS@__article` limit 1 ")){
+        iPHP::alert("转换出错! 请确保 iCMS 文章表[article]为空!");
+    }
 }
 
 $flagMap= array(
