@@ -145,3 +145,18 @@ function loopurl($total,$_query){
         //iPHP::gotourl($url);
     }
 }
+function charsetTrans($html,$out,$encode){
+    if(is_array($html)){
+        foreach ($html as $key => $value) {
+            return charsetTrans($value,$out,$encode);
+        }
+    }else{
+        if (function_exists('mb_convert_encoding')) {
+            return mb_convert_encoding($html,$out,$encode);
+        } elseif (function_exists('iconv')) {
+            return iconv($encode,$out, $html);
+        } else {
+            iPHP::throwException('charsetTrans failed, no function');
+        }
+    }
+}

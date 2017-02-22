@@ -11,12 +11,6 @@
 */
 defined('iPATH') OR exit('What are you doing?');
 
-$dede_config['TRUNCATE'] && iDB::query('TRUNCATE TABLE `#iCMS@__article_data`;');
-
-if(iDB::value("SELECT `id` FROM `#iCMS@__article_data` limit 1 ")){
-    iPHP::alert("转换出错! 请确保 iCMS 文章表[article_data]为空!");
-}
-
 if(empty($total)){
     $total   = $dedeDB->value('
         SELECT count(*)
@@ -26,7 +20,16 @@ if(empty($total)){
 }
 $multi        = iCMS::page(array('total'=>$total,'perpage'=>$maxperpage,'nowindex'=>$_GET['page']));
 $offset       = $multi->offset;
-$limit        = "LIMIT {$offset},{$maxperpage}";
+
+if($offset=="0"){
+    $dede_config['TRUNCATE'] && iDB::query('TRUNCATE TABLE `#iCMS@__article_data`;');
+
+    if(iDB::value("SELECT `id` FROM `#iCMS@__article_data` limit 1 ")){
+        iPHP::alert("转换出错! 请确保 iCMS 文章表[article_data]为空!");
+    }
+}
+
+$limit     = "LIMIT {$offset},{$maxperpage}";
 $addon_ids = $dedeDB->all('
     SELECT `aid` FROM `#dede@__addonarticle`
     '.$limit.'
