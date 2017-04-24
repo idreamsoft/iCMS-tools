@@ -2,16 +2,24 @@
 
 ##dede.convert
 > * dedecms文章转换程序
-> * 把本目录放到iCMS程序的根目录下
-> * 然后给conf目录写权限
-> * 注：此转换程序无法转换DEDE的自定义字段
+
+> 把本目录放到iCMS程序的根目录下
+
+> 然后给conf目录写权限
+
+> `注`此转换程序无法转换DEDE的自定义字段
 
 ##php.shell
 > * iCMS php脚本工具
+
 > 在Linux下测试通过，WIN下CMD执行可能出现乱码 可忽略
+
 > WIN下请移除php文件开头的下面代码 `#!/usr/local/php/bin/php`
+
 > linux 如果php路径不在`/usr/local/php/bin/php`请用`ln`或者修改php脚本
+
 > linux 下给php脚本执行权限 `chmod +x php脚本`
+
 > 执行：`/php脚本路径/php脚本.php`
 
 ##php.shell/v6.0
