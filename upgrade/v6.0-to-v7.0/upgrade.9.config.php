@@ -54,6 +54,15 @@ if(iDB::check_table('config') && iDB::check_table('config_v6')){
     $variable6 = iDB::all("SELECT * FROM `#iCMS@__config_v6`");
     $config6 = array();
     foreach ($variable6 as $key => $v) {
+        if($v['name']=='word.filter' && $v['value']=='a:1:{i:0;a:1:{i:0;s:0:"";}}'){
+            $config6['word.filter'] = array();
+            continue;
+        }
+        if($v['name']=='word.disable' && $v['value']=='a:1:{i:0;s:0:"";}'){
+            $config6['word.disable'] = array();
+            continue;
+        }
+
         $config6[$v['name']] = unserialize($v['value']);
     }
 
@@ -134,3 +143,4 @@ if(iDB::check_table('config') && iDB::check_table('config_v6')){
         iPHP::callback(array($acp,'cache'));
     }
 }
+redirect('upgrade.end.php');

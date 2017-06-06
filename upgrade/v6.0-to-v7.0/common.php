@@ -1,7 +1,7 @@
 <?php
 define('iPHP_DEBUG', true);
 
-require dirname(__FILE__).'/../iCMS-v7.0.1/iCMS.php';
+require dirname(__FILE__).'/../iCMS.php';
 
 if(!version_compare(substr(iCMS_VERSION, 1),'7.0','>=')){
     exit("请将升级程序[v6.0-To-v7.0],放到iCMS v7.0程序目录下");
@@ -20,22 +20,27 @@ function flush_start() {
     ob_implicit_flush(true);
 }
 function flush_print($msg) {
-    echo PHP_EOL.$msg.PHP_EOL;
+    if(iPHP_SHELL){
+        echo PHP_EOL.$msg.PHP_EOL;
+    }else{
+        echo '<pre>'.$msg.'</pre><hr />';
+    }
     flush();
     ob_flush();
 }
 
 function upgrade_query($msg,$sql,$table=null) {
     flush_print($msg);
-    // if($table){
-    //     if(iDB::check_table($table)){
-    //         run_query($sql);
-    //     }else{
-    //         flush_print($table.'表不存在.跳过此处升级');
-    //     }
-    // }else{
-    //     run_query($sql);
-    // }
+    flush_print($sql);
+    if($table){
+        if(iDB::check_table($table)){
+            run_query($sql);
+        }else{
+            flush_print($table.'表不存在.跳过此处升级');
+        }
+    }else{
+        run_query($sql);
+    }
 }
 function run_query($sql) {
     $sql      = str_replace("\r", "\n", $sql);

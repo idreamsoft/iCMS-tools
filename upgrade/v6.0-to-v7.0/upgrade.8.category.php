@@ -50,7 +50,7 @@ if(iDB::check_table('category')){
             flush_print("start...".$limit);
             $ids_array = iDB::all("SELECT `cid` FROM `#iCMS@__category` where {$where} {$limit}");
             flush_print(iDB::$last_query);
-            $ids = iSQL::values($ids_array);
+            $ids = iSQL::values($ids_array,'cid');
             $ids = $ids ? $ids : 0;
             $ids && category_column($ids);
         }
@@ -84,7 +84,7 @@ function category_column($ids){
         "article" =>$value['contentRule'],
         "tag"     =>$value['urlRule'],
       );
-      $rule_array && $rule = json_encode($rule_array);
+      $rule = json_encode($rule_array);
 
       $template_array = array(
         "index"   =>$value['indexTPL'],
@@ -92,14 +92,14 @@ function category_column($ids){
         "article" =>$value['contentTPL'],
         "tag"     =>'{iTPL}/tag.htm',
       );
-      $template_array && $template = json_encode($template_array);
+      $template = json_encode($template_array);
 
       if($value['contentprop']){
         $contentprop = unserialize($value['contentprop']);
-        foreach ((array)$contentprop as $key => $value) {
+        foreach ((array)$contentprop as $pkey => $pval) {
           $meta_array=array(
-              'name'=>$value,
-              'key'=>$key,
+              'name'=>$pval,
+              'key'=>$pkey,
           );
         }
         $meta_array && $meta = json_encode($meta_array);
@@ -111,17 +111,18 @@ function category_column($ids){
         "examine" =>$value['isexamine'],
         "meta"    =>$meta
       );
-      $config_array && $config = json_encode($config_array);
+      $config = json_encode($config_array);
 
       $cid = $value['cid'];
 
       $update = iDB::update('category',compact('config','rule','template'),compact('cid'));
+
       flush_print($value['cid'].' update '.($update?'.....√':'.....×'));
 
       if($value['metadata']){
-        $metadata  = json_decode($value['metadata'],true);
+        $metadata  = unserialize($value['metadata']);
         $data = array();
-        foreach ($metadata as $mkey => $mval) {
+        foreach ((array)$metadata as $mkey => $mval) {
             $data[$mkey] = array(
                 'name'  =>$mkey,
                 'key'   =>$mkey,
@@ -130,8 +131,8 @@ function category_column($ids){
         }
       }
       if($value['hasbody']){
-        $data['body'] = iCache::get('category/'.$value['cid'].'.body');
-        $data['body'] && $data['body'] = stripslashes($data['body']);
+        // $data['body'] = iCache::get('category/'.$value['cid'].'.body');
+        // $data['body'] && $data['body'] = stripslashes($data['body']);
       }
       if($data){
         $data = json_encode($data);

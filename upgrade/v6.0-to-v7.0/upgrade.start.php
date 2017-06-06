@@ -1,8 +1,9 @@
 <?php
 require_once dirname(__FILE__).'/common.php';
-
-redirect('upgrade.1.php');
-exit;
+if(iPHP_SHELL){
+    redirect('upgrade.1.create.php');
+    exit;
+}
 ?>
 <!DOCTYPE html>
 <html>
@@ -17,5 +18,12 @@ exit;
         <link rel="stylesheet" href="http://apps.bdimg.com/libs/bootstrap/3.3.4/css/bootstrap.min.css" type="text/css" />
     </head>
     <body>
+        <div class="container">
+            <h2>升级前请先备份数据!如有意外概不负责!!</h2>
+            <h2>升级前请先备份数据!如有意外概不负责!!</h2>
+            <h2>升级前请先备份数据!如有意外概不负责!!</h2>
+            <p class="lead"></p>
+            <a href="./upgrade.1.create.php" class="btn btn-primary btn-lg btn-block">开始升级</a>
+        </div>
     </body>
 </html>
