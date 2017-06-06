@@ -74,7 +74,7 @@ function tag_metadata($ids){
                 'value' =>$mval
             );
         }
-        $data = json_encode($data);
+        $data = addslashes(json_encode($data));
         iDB::insert('tag_meta',array('id'=>$value['id'],'data'=>$data),true);
         flush_print($value['id'].(iDB::$link->affected_rows?'.....√':'.....×'));
     }

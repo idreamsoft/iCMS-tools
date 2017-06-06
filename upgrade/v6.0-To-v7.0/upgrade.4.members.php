@@ -20,7 +20,7 @@ if(iDB::check_table('group')){
             $value['power'] && $config_array['mpriv'] = json_decode($value['power'],true);
             $value['cpower'] && $config_array['cpriv'] = json_decode($value['cpower'],true);
             if($config_array){
-                $config = json_encode($config_array);
+                $config = addslashes(json_encode($config_array));
                 $gid = $value['gid'];
                 flush_print("开始转换group表的power,cpower数据");
                 iDB::update('group',compact('config'),compact('gid'));
@@ -51,12 +51,12 @@ if(iDB::check_table('members')){
             $value['cpower'] && $config_array['cpriv'] = json_decode($value['cpower'],true);
             $uid = $value['uid'];
             if($config_array){
-                $config = json_encode($config_array);
+                $config = addslashes(json_encode($config_array));
                 flush_print("开始转换members表的power,cpower数据");
                 iDB::update('members',compact('config'),compact('uid'));
             }
             $value['info'] && $info = unserialize($value['info']);
-            $info = json_encode($info);
+            $info = addslashes(json_encode($info));
             iDB::update('members',compact('info'),compact('uid'));
         }
         upgrade_query(

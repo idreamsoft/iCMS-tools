@@ -84,7 +84,7 @@ function category_column($ids){
         "article" =>$value['contentRule'],
         "tag"     =>$value['urlRule'],
       );
-      $rule = json_encode($rule_array);
+      $rule = addslashes(json_encode($rule_array));
 
       $template_array = array(
         "index"   =>$value['indexTPL'],
@@ -92,7 +92,7 @@ function category_column($ids){
         "article" =>$value['contentTPL'],
         "tag"     =>'{iTPL}/tag.htm',
       );
-      $template = json_encode($template_array);
+      $template = addslashes(json_encode($template_array));
 
       if($value['contentprop']){
         $contentprop = unserialize($value['contentprop']);
@@ -111,7 +111,7 @@ function category_column($ids){
         "examine" =>$value['isexamine'],
         "meta"    =>$meta
       );
-      $config = json_encode($config_array);
+      $config = addslashes(json_encode($config_array));
 
       $cid = $value['cid'];
 
@@ -135,7 +135,7 @@ function category_column($ids){
         // $data['body'] && $data['body'] = stripslashes($data['body']);
       }
       if($data){
-        $data = json_encode($data);
+        $data = addslashes(json_encode($data));
         iDB::insert('category_meta',array('id'=>$value['cid'],'data'=>$data),true);
         flush_print($value['cid'].' category_meta '.(iDB::$link->affected_rows?'.....√':'.....×'));
       }

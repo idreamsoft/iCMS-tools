@@ -57,7 +57,7 @@ function article_metadata($ids,$contentprop=null){
     foreach ((array)$resource as $key => $value) {
         $metadata  = unserialize($value['metadata']);
         $data = array();
-        foreach ($metadata as $mkey => $mval) {
+        foreach ((array)$metadata as $mkey => $mval) {
             $name = $contentprop[$value['cid']][$mkey];
             empty($name) && $name = $mkey;
             $data[$mkey] = array(
@@ -66,7 +66,7 @@ function article_metadata($ids,$contentprop=null){
                 'value' =>$mval
             );
         }
-        $data = json_encode($data);
+        $data = addslashes(json_encode($data));
         iDB::insert('article_meta',array('id'=>$value['id'],'data'=>$data),true);
         flush_print($value['id'].(iDB::$link->affected_rows?'.....√':'.....×'));
     }
