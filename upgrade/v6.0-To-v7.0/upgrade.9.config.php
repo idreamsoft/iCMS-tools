@@ -132,6 +132,7 @@ if(iDB::check_table('config') && iDB::check_table('config_v6')){
     $config['keywords']['limit'] = $config6['other']['keyword_limit'];
     foreach ($config as $key => $value) {
         iDB::update("config",array('value'=>cnjson_decode($value)),array('name'=>$key));
+        flush_print(iDB::$last_query);
     }
     flush_print("config数据转换完成.....√");
     flush_print("更新系统缓存");

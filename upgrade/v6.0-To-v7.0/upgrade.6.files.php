@@ -31,7 +31,7 @@ if(iDB::check_table('files') && iDB::check_table('files_map')){
         if($count){
             for ($i=0; $i < $page; $i++) {
                 $offset = $i*$perpage;
-                $limit  = "LIMIT {$offset},{$perpage}";
+                $limit  = "files LIMIT {$offset},{$perpage}";
                 flush_print("start...".$limit);
                 $ids_array = iDB::all("SELECT `id` FROM `#iCMS@__files` where {$where} {$limit}");
                 flush_print(iDB::$last_query);
