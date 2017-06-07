@@ -44,8 +44,8 @@ upgrade_query(
 upgrade_query(
     "更新prop表结构",
     "ALTER TABLE `icms_prop`
-  DROP KEY `app` ,
-  ADD KEY `type`(`app`) ;",
+  DROP KEY `type`,
+  ADD KEY `app`(`app`) ;",
     "prop"
 );
 
@@ -67,10 +67,7 @@ upgrade_query(
 
 upgrade_query(
     "更新user表结构",
-    "ALTER TABLE `icms_user`
-  DROP INDEX `username`,
-  ADD  UNIQUE INDEX `username` (`username`),
-  ADD COLUMN `setting` varchar(1024)  COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '其它设置' after `hits_month`;",
+    "ALTER TABLE `icms_user` ADD COLUMN `setting` varchar(1024)  COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '其它设置' after `hits_month`;",
     "user"
 );
 
@@ -80,6 +77,13 @@ upgrade_query(
     "user"
 );
 
+upgrade_query(
+    "更新user表结构",
+    "ALTER TABLE `icms_user`
+  DROP INDEX `username`,
+  ADD  UNIQUE INDEX `username` (`username`);",
+    "user"
+);
 upgrade_query(
     "更新user_data表结构",
     "ALTER TABLE `icms_user_data`
