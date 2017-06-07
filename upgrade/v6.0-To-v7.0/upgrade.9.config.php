@@ -138,6 +138,8 @@ if(iDB::check_table('config') && iDB::check_table('config_v6')){
     apps::cache();
     menu::cache();
     category::cache();
+    $categoryAdmincp = new article_categoryAdmincp();
+    $categoryAdmincp->do_cache(false);
     iView::clear_tpl();
     foreach (array('configAdmincp','propAdmincp','filterAdmincp','keywordsAdmincp') as $key => $acp) {
         iPHP::callback(array($acp,'cache'));
