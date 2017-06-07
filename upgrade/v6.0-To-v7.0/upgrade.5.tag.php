@@ -44,8 +44,8 @@ if(iDB::check_table('tag')){
         if($count){
             for ($i=0; $i < $page; $i++) {
                 $offset = $i*$perpage;
-                $limit  = "tag LIMIT {$offset},{$perpage}";
-                flush_print("start...".$limit);
+                $limit  = "LIMIT {$offset},{$perpage}";
+                flush_print("start...tag ".$limit);
                 $ids_array = iDB::all("SELECT `id` FROM `#iCMS@__tag` where {$where} {$limit}");
                 flush_print(iDB::$last_query);
                 $ids = iSQL::values($ids_array);

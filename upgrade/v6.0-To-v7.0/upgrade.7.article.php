@@ -34,8 +34,8 @@ if(iDB::check_table('article')){
 
             for ($i=0; $i < $page; $i++) {
                 $offset = $i*$perpage;
-                $limit  = "article LIMIT {$offset},{$perpage}";
-                flush_print("start...".$limit);
+                $limit  = "LIMIT {$offset},{$perpage}";
+                flush_print("start...article ".$limit);
                 $ids_array = iDB::all("SELECT `id` FROM `#iCMS@__article` where {$where} {$limit}");
                 flush_print(iDB::$last_query);
                 $ids = iSQL::values($ids_array);

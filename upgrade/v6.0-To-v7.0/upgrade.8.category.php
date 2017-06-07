@@ -47,8 +47,8 @@ if(iDB::check_table('category')){
     if($count){
         for ($i=0; $i < $page; $i++) {
             $offset = $i*$perpage;
-            $limit  = "category LIMIT {$offset},{$perpage}";
-            flush_print("start...".$limit);
+            $limit  = "LIMIT {$offset},{$perpage}";
+            flush_print("start...category ".$limit);
             $ids_array = iDB::all("SELECT `cid` FROM `#iCMS@__category` where {$where} {$limit}");
             flush_print(iDB::$last_query);
             $ids = iSQL::values($ids_array,'cid');
