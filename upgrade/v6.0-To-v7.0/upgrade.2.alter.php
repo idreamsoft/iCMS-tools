@@ -37,9 +37,15 @@ upgrade_query(
     "ALTER TABLE `icms_prop`
   ADD COLUMN `appid` int(10) unsigned   NOT NULL DEFAULT 0 after `field` ,
   CHANGE `type` `app` varchar(255)  COLLATE utf8_general_ci NOT NULL DEFAULT '' after `appid` ,
-  CHANGE `sortnum` `sortnum` int(10) unsigned   NOT NULL DEFAULT 0 after `app` ,
-  DROP KEY `type`,
-  ADD KEY `app`(`app`) ;",
+  CHANGE `sortnum` `sortnum` int(10) unsigned   NOT NULL DEFAULT 0 after `app`;",
+    "prop"
+);
+
+upgrade_query(
+    "更新prop表结构",
+    "ALTER TABLE `icms_prop`
+  DROP KEY `app` ,
+  ADD KEY `type`(`app`) ;",
     "prop"
 );
 

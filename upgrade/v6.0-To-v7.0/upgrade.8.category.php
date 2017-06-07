@@ -5,6 +5,7 @@ if(iDB::check_table('category_map')){
     upgrade_query(
         "更新category_map表结构",
         "ALTER TABLE `icms_category_map`
+      CHANGE `node` `node` int(10) unsigned   NOT NULL DEFAULT 0 COMMENT 'cid' after `id`,
       ADD COLUMN `field` varchar(255)  COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '字段' after `iid` ,
       CHANGE `appid` `appid` int(10) unsigned   NOT NULL DEFAULT 0 COMMENT '应用ID' after `field` ;"
     );
