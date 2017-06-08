@@ -72,4 +72,4 @@ function article_metadata($ids,$contentprop=null){
     }
 }
 
-redirect('upgrade.8.category.php');
+redirect('upgrade.7.category.php');

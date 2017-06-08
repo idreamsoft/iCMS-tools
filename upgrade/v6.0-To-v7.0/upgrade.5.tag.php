@@ -80,4 +80,4 @@ function tag_metadata($ids){
     }
 }
 
-redirect('upgrade.6.files.php');
+redirect('upgrade.6.article.php');

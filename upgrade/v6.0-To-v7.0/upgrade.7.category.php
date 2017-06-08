@@ -143,4 +143,4 @@ function category_column($ids){
     }
 }
 
-redirect('upgrade.9.config.php');
+redirect('upgrade.8.config.php');

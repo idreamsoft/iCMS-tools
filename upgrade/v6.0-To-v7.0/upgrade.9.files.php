@@ -65,4 +65,4 @@ function files_indexid($ids){
     }
 }
 
-redirect('upgrade.7.article.php');
+redirect('upgrade.end.php');

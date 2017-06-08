@@ -146,4 +146,4 @@ if(iDB::check_table('config') && iDB::check_table('config_v6')){
         iPHP::callback(array($acp,'cache'));
     }
 }
-redirect('upgrade.end.php');
+redirect('upgrade.9.files.php');
