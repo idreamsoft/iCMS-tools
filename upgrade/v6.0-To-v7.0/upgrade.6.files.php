@@ -61,8 +61,7 @@ function files_indexid($ids){
             'indexid' =>$value['indexid'],
             'addtime' =>$value['time'],
         ),true);
-
-        flush_print($value['id'].(iDB::$link->affected_rows?'.....√':'.....×'));
+        flush_print($value['id'].'.....√');
     }
 }
 

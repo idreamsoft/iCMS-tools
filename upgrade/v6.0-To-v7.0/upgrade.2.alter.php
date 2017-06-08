@@ -77,13 +77,14 @@ upgrade_query(
     "user"
 );
 
-upgrade_query(
-    "更新user表结构",
-    "ALTER TABLE `icms_user`
-  DROP INDEX `username`,
-  ADD  UNIQUE INDEX `username` (`username`);",
-    "user"
-);
+// upgrade_query(
+//     "更新user表结构",
+//     "ALTER TABLE `icms_user`
+//   DROP INDEX `username`,
+//   ADD  UNIQUE INDEX `username` (`username`);",
+//     "user"
+// );
+//
 upgrade_query(
     "更新user_data表结构",
     "ALTER TABLE `icms_user_data`

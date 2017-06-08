@@ -138,7 +138,7 @@ function category_column($ids){
       if($data){
         $data = addslashes(json_encode($data));
         iDB::insert('category_meta',array('id'=>$value['cid'],'data'=>$data),true);
-        flush_print($value['cid'].' category_meta '.(iDB::$link->affected_rows?'.....√':'.....×'));
+        flush_print($value['cid'].' category_meta '.'.....√');
       }
     }
 }

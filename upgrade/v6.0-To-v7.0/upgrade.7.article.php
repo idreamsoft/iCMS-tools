@@ -68,7 +68,7 @@ function article_metadata($ids,$contentprop=null){
         }
         $data = addslashes(json_encode($data));
         iDB::insert('article_meta',array('id'=>$value['id'],'data'=>$data),true);
-        flush_print($value['id'].(iDB::$link->affected_rows?'.....√':'.....×'));
+        flush_print($value['id'].'.....√');
     }
 }
 
