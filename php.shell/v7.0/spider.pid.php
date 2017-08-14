@@ -8,6 +8,7 @@
 * @site https://www.icmsdev.com
 * @licence https://www.icmsdev.com/LICENSE.html
 */
+define('iPHP_DEBUG', true);
 require dirname(__file__).'/../iCMS.php';
 ini_set('memory_limit','512M');
 
@@ -18,11 +19,7 @@ members::$GATEWAY = 'bool';
 if(!members::check($username,$password)){
     exit("账号或密码错误");
 }
-
 files::init(array('userid'=> '1'));
-
-iHttp::$CURLOPT_TIMEOUT        = 30; //数据传输的最大允许时间
-iHttp::$CURLOPT_CONNECTTIMEOUT = 3;  //连接超时时间
 
 function unlink_pid(){
     if($GLOBALS['shutdown_pid']){
@@ -64,28 +61,48 @@ function sig_handler($signo){
             // 处理所有其他信号
      }
 }
+
 function shutdown(){
     unlink_pid();
 }
-
 register_shutdown_function('shutdown');
 
-$project   = iDB::all("SELECT * FROM `#iCMS@__spider_project` WHERE `auto`='1' order by `id` desc");
+if(empty($_SERVER['argv'][1])){
+    exit("ERROR:need argc".PHP_EOL."exp:".$_SERVER['argv'][0]." [pid]".PHP_EOL.PHP_EOL.PHP_EOL);
+}
+iHttp::$CURLOPT_TIMEOUT        = 30; //数据传输的最大允许时间
+iHttp::$CURLOPT_CONNECTTIMEOUT = 3;  //连接超时时间
+
+
+// $project = array(
+//     array('id'=>$_SERVER['argv'][1]),
+// );
+
+$project = explode(',', $_SERVER['argv'][1]);
+
+
+// iFS::$PROXY_URL    = 'http://ooxx.com/proxy.php?url=';
+// spider::$PROXY_URL = 'http://ooxx.com/proxy.php?url=';
 spider::$work = 'shell';
-foreach ((array)$project as $key => $pro) {
-    $GLOBALS['shutdown_pid'] = $pro['id'];
-    $pfile = iPHP_APP_CACHE.'/spider.'.$pro['id'].'.pid';
+foreach ((array)$project as $key => $pid) {
+    if(empty($pid)){
+        continue;
+    }
+    $GLOBALS['shutdown_pid'] = $pid;
+    $pfile = iPHP_APP_CACHE.'/spider.'.$pid.'.pid';
     if(file_exists($pfile)){
+        $project = spider::project($pid);
         $time = filemtime($pfile);
         if($time-$project['lastupdate']>=$project['psleep']){
             unlink_pid();
         }else{
-            echo "project[".$pro['id']."],runing...".PHP_EOL;
+            echo "project[".$pid."],runing...".PHP_EOL;
             continue;
         }
     }
-    file_put_contents($pfile, $pro['id']);
-    spider::$pid = $pro['id'];
-    spider_urls::crawl("shell",$pro['id'],$pro['rid']);
+    file_put_contents($pfile, $pid);
+    spider::$pid = $pid;
+    spider_urls::crawl("shell");
     @unlink($pfile);
 }
+
