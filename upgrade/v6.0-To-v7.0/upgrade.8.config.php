@@ -131,7 +131,8 @@ if(iDB::check_table('config') && iDB::check_table('config_v6')){
     $config['weixin'] = $config6['weixin'];
     $config['keywords']['limit'] = $config6['other']['keyword_limit'];
     foreach ($config as $key => $value) {
-        iDB::update("config",array('value'=>cnjson_decode($value)),array('name'=>$key));
+        $value = addslashes(json_encode($value));
+        iDB::update("config",array('value'=>$value),array('name'=>$key));
         flush_print(iDB::$last_query);
     }
     flush_print("config数据转换完成.....√");
